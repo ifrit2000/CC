@@ -1,8 +1,8 @@
 package com.anthony.cc.context;
 
-import com.anthony.cc.scanner.CandidateComponentScanner;
-
-import java.io.IOException;
+import com.anthony.cc.container.Container;
+import com.anthony.cc.container.NameKeyContainer;
+import com.anthony.cc.container.TypeKeyContainer;
 
 /**
  * Created by chend on 2017/7/27.
@@ -15,8 +15,12 @@ public class ContainerContext implements Context {
         return context;
     }
 
-    private ContainerContext() {
+    private Container nameKeyContainer;
+    private Container typeKeyContainer;
 
+    private ContainerContext() {
+        nameKeyContainer = new NameKeyContainer();
+        typeKeyContainer = new TypeKeyContainer();
     }
 
     private void findAllCandidateComponent() {

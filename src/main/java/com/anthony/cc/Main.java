@@ -11,6 +11,5 @@ public class Main {
     public static void main(String[] args) throws IOException {
         CandidateComponentScanner c = new CandidateComponentScanner();
         c.findCandidateComponent("com.anthony.cc").forEach(System.out::println);
-
     }
 }
