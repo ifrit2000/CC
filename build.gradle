@@ -1,5 +1,5 @@
 group 'com.anthony'
-version '1.0-SNAPSHOT'
+version '0.1'
 
 apply plugin: 'java'
 
