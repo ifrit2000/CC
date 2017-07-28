@@ -16,13 +16,17 @@ public class CandidateComponentScanner {
 
     public Set<String> findCandidateComponent(String basePackage) {
         basePackage = "/" + basePackage.replaceAll("\\.", "/");
-//
         return findAllFullyQualifiedClassName(basePackage);
     }
 
     public Set<String> findCandidateComponent(String[] basePackages) {
-
-        return null;
+        String basePackage;
+        Set<String> nameSet = new HashSet<>();
+        for (int i = 0; i != basePackages.length; ++i) {
+            basePackage = "/" + basePackages[i].replaceAll("\\.", "/");
+            nameSet.addAll(findAllFullyQualifiedClassName(basePackage));
+        }
+        return nameSet;
     }
 
     //找到所有的完全限定类名
