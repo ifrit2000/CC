@@ -40,4 +40,5 @@ public class BeanEntity {
     public void setClazz(Class<?> clazz) {
         this.clazz = clazz;
     }
+
 }

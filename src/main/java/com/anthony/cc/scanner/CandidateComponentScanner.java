@@ -1,5 +1,8 @@
 package com.anthony.cc.scanner;
 
+import com.anthony.cc.annotation.Component;
+import com.anthony.cc.container.BeanEntity;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,19 +17,50 @@ import java.util.jar.JarInputStream;
 public class CandidateComponentScanner {
 
 
-    public Set<String> findCandidateComponent(String basePackage) {
+    public ArrayList<BeanEntity> findCandidateComponent(String basePackage) {
         basePackage = "/" + basePackage.replaceAll("\\.", "/");
-        return findAllFullyQualifiedClassName(basePackage);
+        return filterComponent(findAllFullyQualifiedClassName(basePackage));
     }
 
-    public Set<String> findCandidateComponent(String[] basePackages) {
+    public ArrayList<BeanEntity> findCandidateComponent(String[] basePackages) {
         String basePackage;
         Set<String> nameSet = new HashSet<>();
         for (int i = 0; i != basePackages.length; ++i) {
             basePackage = "/" + basePackages[i].replaceAll("\\.", "/");
             nameSet.addAll(findAllFullyQualifiedClassName(basePackage));
         }
-        return nameSet;
+        return filterComponent(nameSet);
+    }
+
+    //根据名字创建对象
+    private ArrayList<BeanEntity> filterComponent(Set<String> nameSet) {
+        ArrayList<BeanEntity> list = new ArrayList<>();
+        for (String name : nameSet) {
+            try {
+                Class<?> clazz = getClass().getClassLoader().loadClass(name);
+                if (!clazz.isAnnotation()) {
+                    Component component = clazz.getAnnotation(Component.class);
+                    if (null != component) {
+                        BeanEntity beanEntity = new BeanEntity();
+                        beanEntity.setName(component.beanName().equals("")?clazz.getName():component.beanName());
+                        beanEntity.setClazz(clazz);
+                        beanEntity.setSingleton(component.singleton());
+                        beanEntity.setBean(beanEntity.isSingleton() ? clazz.newInstance() : null);
+                        list.add(beanEntity);
+                    }
+                }
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                System.out.println("构造器");
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                System.out.println("构造器2");
+                e.printStackTrace();
+            }
+
+        }
+        return list;
     }
 
     //找到所有的完全限定类名

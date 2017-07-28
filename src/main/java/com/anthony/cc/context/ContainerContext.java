@@ -1,8 +1,10 @@
 package com.anthony.cc.context;
 
-import com.anthony.cc.container.Container;
-import com.anthony.cc.container.NameKeyContainer;
-import com.anthony.cc.container.TypeKeyContainer;
+import com.anthony.cc.container.BeanEntity;
+import com.anthony.cc.container.SimpleContainer;
+import com.anthony.cc.scanner.CandidateComponentScanner;
+
+import java.util.ArrayList;
 
 /**
  * Created by chend on 2017/7/27.
@@ -15,16 +17,37 @@ public class ContainerContext implements Context {
         return context;
     }
 
-    private Container nameKeyContainer;
-    private Container typeKeyContainer;
+    private SimpleContainer container;
+
+    private CandidateComponentScanner scanner;
 
     private ContainerContext() {
-        nameKeyContainer = new NameKeyContainer();
-        typeKeyContainer = new TypeKeyContainer();
+        container = new SimpleContainer();
+        scanner = new CandidateComponentScanner();
     }
 
-    private void findAllCandidateComponent() {
+    @Override
+    public void init(String basePackage) {
+        init(scanner.findCandidateComponent(basePackage));
+    }
 
+    @Override
+    public void init(String[] basePackages) {
+        init(scanner.findCandidateComponent(basePackages));
+    }
+
+    @Override
+    public Object getBean(String beanName) {
+        return container.getBean(beanName);
+    }
+
+    @Override
+    public Object getBean(Class<?> clazz) {
+        return container.getBean(clazz);
+    }
+
+    private void init(ArrayList<BeanEntity> list) {
+        container.fillContainer(list);
     }
 
 }

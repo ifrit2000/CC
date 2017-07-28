@@ -1,6 +1,7 @@
 package com.anthony.cc;
 
-import com.anthony.cc.scanner.CandidateComponentScanner;
+import com.anthony.cc.context.ContainerContext;
+import com.anthony.cc.context.Context;
 
 import java.io.IOException;
 
@@ -9,7 +10,10 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(String[] args) throws IOException {
-        CandidateComponentScanner c = new CandidateComponentScanner();
-        c.findCandidateComponent("com.anthony.cc").forEach(System.out::println);
+        Context context = ContainerContext.getContext();
+        context.init("com.anthony");
+        Test1 a = (Test1) context.getBean(Test1.class);
+        a.print("3");
+
     }
 }
