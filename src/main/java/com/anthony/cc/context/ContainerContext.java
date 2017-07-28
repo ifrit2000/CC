@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 /**
  * Created by chend on 2017/7/27.
+ * Context context = ContainerContext.getContext();
+ * context.init("com.anthony");
  */
 public class ContainerContext implements Context {
 

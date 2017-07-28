@@ -11,7 +11,8 @@ public class ContainerContextTest {
     public void test()
     {
 String test= "file:/D:/Dev/code/intellij/CC/build/libs/CC-1.0-SNAPSHOT.jar!/com/anthony/cc";
-
+        Context context = ContainerContext.getContext();
+        context.init("com.anthony");
     }
 
 }
