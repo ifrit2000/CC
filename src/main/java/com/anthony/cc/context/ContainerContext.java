@@ -1,8 +1,9 @@
 package com.anthony.cc.context;
 
+import com.anthony.cc.annotationprocess.CandidateComponentScanner;
+import com.anthony.cc.annotationprocess.ComponentAssembler;
 import com.anthony.cc.container.BeanEntity;
 import com.anthony.cc.container.SimpleContainer;
-import com.anthony.cc.scanner.CandidateComponentScanner;
 
 import java.util.ArrayList;
 
@@ -18,12 +19,14 @@ public class ContainerContext implements Context {
     }
 
     private SimpleContainer container;
+    private ComponentAssembler assembler;
 
     private CandidateComponentScanner scanner;
 
     private ContainerContext() {
         container = new SimpleContainer();
         scanner = new CandidateComponentScanner();
+        assembler = new ComponentAssembler();
     }
 
     @Override

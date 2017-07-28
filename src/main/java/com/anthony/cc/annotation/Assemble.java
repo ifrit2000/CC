@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Assemble {
-    Class<?> clazz() default Object.class;
+    Class<?> type() default Object.class;
 
     String beanName() default "";
 }

@@ -1,4 +1,4 @@
-package com.anthony.cc.scanner;
+package com.anthony.cc.annotationprocess;
 
 import com.anthony.cc.annotation.Component;
 import com.anthony.cc.container.BeanEntity;
@@ -41,12 +41,7 @@ public class CandidateComponentScanner {
                 if (!clazz.isAnnotation()) {
                     Component component = clazz.getAnnotation(Component.class);
                     if (null != component) {
-                        BeanEntity beanEntity = new BeanEntity();
-                        beanEntity.setName(component.beanName().equals("")?clazz.getName():component.beanName());
-                        beanEntity.setClazz(clazz);
-                        beanEntity.setSingleton(component.singleton());
-                        beanEntity.setBean(beanEntity.isSingleton() ? clazz.newInstance() : null);
-                        list.add(beanEntity);
+                        list.add(BeanEntity.buildBeanEntity(component.beanName(), clazz, component.singleton()));
                     }
                 }
             } catch (ClassNotFoundException e) {
